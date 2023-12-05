@@ -24,7 +24,7 @@ resource "aws_internet_gateway" "eks_igw" {
 resource "aws_subnet" "eks_pub_sub_one" {
   vpc_id                  = aws_vpc.eks_vpc.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "eu-west-2a"
+  availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -37,7 +37,7 @@ resource "aws_subnet" "eks_pub_sub_one" {
 resource "aws_subnet" "eks_pub_sub_two" {
   vpc_id                  = aws_vpc.eks_vpc.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = "eu-west-2b"
+  availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -49,7 +49,7 @@ resource "aws_subnet" "eks_pub_sub_two" {
 resource "aws_subnet" "eks_priv_sub_one" {
   vpc_id            = aws_vpc.eks_vpc.id
   cidr_block        = "10.0.3.0/24"
-  availability_zone = "eu-west-2a"
+  availability_zone = "us-east-1a"
 
   tags = {
     Name = "Private Subnet one"
@@ -60,7 +60,7 @@ resource "aws_subnet" "eks_priv_sub_one" {
 resource "aws_subnet" "eks_priv_sub_two" {
   vpc_id            = aws_vpc.eks_vpc.id
   cidr_block        = "10.0.4.0/24"
-  availability_zone = "eu-west-2b"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name = "Private Subnet two"
@@ -158,7 +158,7 @@ resource "aws_iam_role" "eks_cluster_role" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "eks.amazonaws.com"
+          Service = "eks.amazonaws.com"    # an EC2 instance will be created for the Master node
         }
         Action = "sts:AssumeRole"
       }
@@ -173,7 +173,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_role_attachment" {
 }
 
 # Create an EKS cluster
-resource "aws_eks_cluster" "karo_cluster" {
+resource "aws_eks_cluster" "hamid_cluster" {   # previously was karo_cluster
   name     = "eks_cluster"
   role_arn = aws_iam_role.eks_cluster_role.arn
   version  = "1.26"
@@ -192,7 +192,7 @@ resource "aws_eks_cluster" "karo_cluster" {
 
 # Export the kubeconfig for the EKS cluster
 # output "kubeconfig" {
-#  value = aws_eks_cluster.karo_cluster.kubeconfig
+#  value = aws_eks_cluster.hamid_cluster.kubeconfig
 #}
 
 
@@ -207,7 +207,7 @@ resource "aws_iam_role" "eks_worker_node_role" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "ec2.amazonaws.com"
+          Service = "ec2.amazonaws.com"    # an EC2 will be created for the worker node
         }
         Action = "sts:AssumeRole"
       }
@@ -263,7 +263,7 @@ resource "aws_eks_node_group" "eks_node" {
   # release_version = "latest"
 
   # Configure the node group instances
-  instance_types = ["t3.small", "t3.medium", "t3.large"]
+  instance_types = ["t3.small", "t3.medium", "t3.large"]   # any one of those EC2 types will work for this project
 
 
   # Use the managed node group capacity provider
