@@ -35,7 +35,7 @@ pipeline {
                expression { params.apply }
             }
             steps {
-                   sh "aws eks update-kubeconfig --region us-east-1 --name eks_cluster"
+                   sh "aws eks update-kubeconfig --name eks_cluster"
                    sh "kubectl apply -f deployment.yml"
              }
         }
