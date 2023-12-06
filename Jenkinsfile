@@ -25,7 +25,7 @@ pipeline {
                 sh "terraform plan" 
             }
         }
-        stage ("action") {
+        stage ("Action") {
             steps {
                 sh 'terraform ${action} --auto-approve'  
            }
@@ -35,7 +35,7 @@ pipeline {
                expression { params.apply }
             }
             steps {
-                   sh "aws eks update-kubeconfig --region --name eks_cluster"
+                   sh "aws eks update-kubeconfig --name eks_cluster"
                    sh "kubectl apply -f deployment.yml"
              }
         }
