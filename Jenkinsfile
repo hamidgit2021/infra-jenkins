@@ -27,7 +27,7 @@ pipeline {
         }
         stage (" Action") {
             steps {
-                sh 'terraform ${action} --auto-approve'   # the parameter action used to chose between apply or destroy
+                sh 'terraform ${action} --auto-approve'   // the parameter action used to chose between apply or destroy
            }
         }
         stage("Deploy to EKS") {
