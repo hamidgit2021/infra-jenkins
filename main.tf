@@ -235,7 +235,7 @@ resource "aws_iam_role_policy_attachment" "eks_ec2CR_policy_attachment" {
 
 # Create the EKS node group
 resource "aws_eks_node_group" "eks_node" {
-  cluster_name    = aws_eks_cluster.karo_cluster.name
+  cluster_name    = aws_eks_cluster.hamid_cluster.name   # previously it was karo_cluster.name
   node_group_name = "eks_node"
   node_role_arn   = aws_iam_role.eks_worker_node_role.arn
 
