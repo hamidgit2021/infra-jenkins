@@ -36,7 +36,8 @@ pipeline {
             // }
             steps {
                    sh "aws eks update-kubeconfig --name eks_cluster"
-                   sh "kubectl apply -f deployment.yml"
+                   // sh "kubectl apply -f deployment.yml"   # we commented this now cause we need resource for other project
+                   sh "kubectl delete -f deployment.yml"     // we delete this deployment
              }
         }
     }
